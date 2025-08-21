@@ -132,11 +132,12 @@ function UnomiPro() {
 }
 
 /* ————— Components ————— */
-function Wordmark({ small }){
+type WordmarkProps = { small?: boolean };
+function Wordmark({ small = false }: WordmarkProps) {
   return (
     <div className="flex items-center gap-2">
-      <BotGlyph />
-      <span className={(small?"text-lg":"text-2xl")+" font-extrabold tracking-tight"}>unomi</span>
+      <BotGlyph small={small} />
+      <span className={(small ? "text-lg" : "text-2xl") + " font-extrabold tracking-tight"}>unomi</span>
     </div>
   );
 }
@@ -206,7 +207,8 @@ function Quote(){
 }
 
 /* Minimal, friendly bot glyph (not cutesy, just approachable) */
-function BotGlyph({ small }){
+type BotGlyphProps = { small?: boolean };
+function BotGlyph({ small = false }: BotGlyphProps) {
   return (
     <svg viewBox="0 0 120 120" className={small?"h-6 w-6":"h-8 w-8"}>
       <defs>
