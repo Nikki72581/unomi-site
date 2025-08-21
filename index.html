@@ -1,1 +1,234 @@
-<!doctype html><meta charset='utf-8'><title>Unomi</title><p>Unomi site placeholder v2.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unomi — Insight that actually ships</title>
+  <meta name="description" content="Unomi turns messy signals into decisions you can ship. Smart, friendly, and fast." />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --panel: #121827;
+      --ink: #e5e7eb;
+      --muted: #9aa4b2;
+      --brand: #7c9cff; /* friendly, not childish */
+      --acid: #9bffcc;  /* accent */
+      --warn: #ffd166;
+      --ok: #34d399;
+      --err: #f87171;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box }
+    html,body { margin:0; height:100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(124,156,255,.18), transparent 70%),
+                  radial-gradient(1000px 700px at 10% -20%, rgba(155,255,204,.12), transparent 70%),
+                  var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    a { color: var(--brand); text-decoration: none }
+    a:hover { text-decoration: underline }
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+    .badge { display:inline-flex; align-items:center; gap:.5rem; background: rgba(124,156,255,.12); border:1px solid rgba(124,156,255,.25); padding:.35rem .7rem; border-radius:999px; font-size:.82rem; color:#cfe0ff }
+    .badge .dot { width:6px; height:6px; background: var(--acid); border-radius:999px; box-shadow:0 0 10px var(--acid) }
+    header { padding: 22px 0; position: sticky; top:0; backdrop-filter: blur(8px); background: linear-gradient(180deg, rgba(11,14,20,.85), rgba(11,14,20,.55) 70%, transparent); z-index: 5; border-bottom: 1px solid rgba(255,255,255,.05) }
+    .nav { display:flex; align-items:center; justify-content:space-between }
+    .logo { display:flex; align-items:center; gap:.65rem; font-weight:800; letter-spacing:.6px }
+    .logo .mark { width:28px; height:28px; border-radius:10px; background: linear-gradient(180deg, var(--brand), #4b6cff); display:grid; place-items:center; color:white; font-weight:800; box-shadow: var(--shadow) }
+    .nav a { color: var(--muted); margin-left: 18px }
+    .btn { display:inline-flex; align-items:center; gap:.6rem; border-radius: 12px; padding: .7rem 1rem; border:1px solid rgba(255,255,255,.12); background: #0f1423; color:var(--ink); cursor:pointer }
+    .btn.primary { background: linear-gradient(180deg, var(--brand), #4b6cff); border-color: rgba(124,156,255,.6) }
+    .btn:focus { outline: 2px solid var(--brand) }
+
+    .hero { padding: 72px 0 36px }
+    .hero-grid { display:grid; grid-template-columns: 1.15fr .85fr; gap: 36px; align-items:center }
+    .hero h1 { font-size: clamp(32px, 4.6vw, 64px); line-height: 1.05; margin: 18px 0 }
+    .hero p { font-size: 1.12rem; color: var(--muted); margin: 0 0 18px }
+    .chips { display:flex; flex-wrap:wrap; gap:10px; margin: 18px 0 }
+
+    .panel { background: linear-gradient(180deg, #0f1527, #0c1222); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); box-shadow: var(--shadow) }
+    .screen { position:relative; padding: 18px; overflow:hidden }
+    .screen .topbar { display:flex; align-items:center; gap:8px; color: var(--muted); font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.82rem; padding-bottom:10px; border-bottom:1px dashed rgba(255,255,255,.08) }
+    .dots { display:flex; gap:8px }
+    .dots span { width:10px; height:10px; border-radius:999px; display:inline-block }
+    .dots .r { background:#ff5f56 } .dots .y { background:#ffbd2e } .dots .g { background:#27c93f }
+
+    .code { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: .92rem; white-space: pre; overflow:auto; background: #0a0f1d; color: #cde3ff; border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,.06) }
+
+    .kv { display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px }
+    .metric { background: #0a1020; border:1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 16px }
+    .metric .label { color: var(--muted); font-size:.85rem }
+    .metric .value { font-size: 1.8rem; font-weight: 800 }
+    .metric .delta { font-size:.9rem }
+
+    .section { padding: 64px 0 }
+    .section h2 { font-size: clamp(24px, 3.2vw, 40px); margin:0 0 12px }
+    .section p.lead { color: var(--muted); max-width: 72ch }
+
+    .cards { display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px }
+    .card { background: #0a1020; border:1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 18px }
+    .card h3 { margin: 8px 0 6px; font-size: 1.1rem }
+    .card p { color: var(--muted); font-size: .95rem }
+
+    .how { display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px }
+    .step { background: #0a1020; border:1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 16px }
+    .step .n { font-weight: 800; color: var(--acid); letter-spacing:.08em }
+
+    .cta { text-align:center; padding: 80px 0 }
+
+    footer { border-top:1px solid rgba(255,255,255,.08); padding: 24px 0; color: var(--muted) }
+
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr 1fr }
+      .how { grid-template-columns: 1fr 1fr }
+      .kv { grid-template-columns: 1fr 1fr 1fr }
+    }
+    @media (max-width: 640px) {
+      .cards, .how { grid-template-columns: 1fr }
+      .kv { grid-template-columns: 1fr 1fr }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo"><span class="mark">U</span> Unomi</div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#clarity-velocity">Clarity × Velocity</a>
+        <a href="#how">How it works</a>
+        <a href="#contact">Contact</a>
+        <button class="btn primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get started</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <span class="badge"><span class="dot"></span> Private beta</span>
+      <div class="hero-grid">
+        <div>
+          <h1>Insight that actually ships.</h1>
+          <p>Unomi turns messy signals into decisions you can ship. Less theater, more outcomes. Designed for operators who like receipts.</p>
+          <div class="chips">
+            <span class="badge">Signal fusion</span>
+            <span class="badge">AI copilot</span>
+            <span class="badge">Human-in-the-loop</span>
+          </div>
+          <div class="chips">
+            <button class="btn primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Request access</button>
+            <button class="btn" onclick="document.getElementById('clarity-velocity').scrollIntoView({behavior:'smooth'})">See outcomes</button>
+          </div>
+        </div>
+        <div class="panel screen">
+          <div class="topbar"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div> demo/unomi-session.log</div>
+          <div class="code" aria-label="demo">
+$ unomi ingest sources=erp,crm,tickets
+✓ synced 1.2M rows in 6m 11s
+$ unomi ask "What’s blocking collections and what pays down fastest?"
+→ hypothesis graph compiled
+→ 3 interventions generated
+
+1) Split dunning by payment intent
+   ETA: 3 days   Lift: +11.4% collected   Confidence: 0.72
+2) Retry schedule tuned to issuer windows
+   ETA: 1 day    Lift: +6.1%              Confidence: 0.65
+3) Flag stale SKUs in invoices
+   ETA: 2 days   Lift: +3.4%              Confidence: 0.58
+
+$ unomi ship 1,2
+✓ interventions queued for rollout
+          </div>
+
+          <div class="kv">
+            <div class="metric"><div class="label">Time to first insight</div><div class="value">12 min</div><div class="delta" style="color:var(--ok)">▼ 78%</div></div>
+            <div class="metric"><div class="label">Collections lift</div><div class="value">+11.4%</div><div class="delta" style="color:var(--ok)">Projected</div></div>
+            <div class="metric"><div class="label">Noise reduced</div><div class="value">-63%</div><div class="delta" style="color:var(--ok)">Verified</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section container">
+      <h2>Smart, friendly, not cutesy.</h2>
+      <p class="lead">We prefer models with receipts and interfaces that don’t talk down to you. Unomi is opinionated where it matters and flexible where it counts.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Signal fusion</h3>
+          <p>Unifies ERP, CRM, ticketing, and product telemetry into a single truth layer. No data tourism.</p>
+        </div>
+        <div class="card">
+          <h3>Decision engine</h3>
+          <p>Hypothesis graphs weigh impact, effort, and risk to propose interventions. You stay in the loop.</p>
+        </div>
+        <div class="card">
+          <h3>Audit trail</h3>
+          <p>Every suggestion carries lineage and assumptions. Change my mind? Please.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="clarity-velocity" class="section container">
+      <h2>Clarity × Velocity</h2>
+      <p class="lead">If it doesn’t reduce ambiguity or increase speed, it doesn’t ship. Track both, ruthlessly.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Clarity</h3>
+          <p>Ambiguity score trends, source-of-truth conflicts resolved, and assumption deltas over time.</p>
+        </div>
+        <div class="card">
+          <h3>Velocity</h3>
+          <p>Cycle time to decision, intervention rollout time, and reverted-change rate.</p>
+        </div>
+        <div class="card">
+          <h3>Outcomes</h3>
+          <p>Cash collected, churn avoided, and ops cost shaved. Numbers or it didn’t happen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section container">
+      <h2>How it works</h2>
+      <p class="lead">Plug in, ask something real, ship the delta. That’s it.</p>
+      <div class="how">
+        <div class="step"><div class="n">01</div><h3>Connect</h3><p>Point Unomi at your systems. Bring your own warehouse or go direct.</p></div>
+        <div class="step"><div class="n">02</div><h3>Ask</h3><p>Natural questions, structured answers. No mysticism, just math.</p></div>
+        <div class="step"><div class="n">03</div><h3>Decide</h3><p>Review interventions with impact/effort estimates and assumptions.</p></div>
+        <div class="step"><div class="n">04</div><h3>Ship</h3><p>Push the change. Track clarity and velocity like your roadmap depends on it.</p></div>
+      </div>
+    </section>
+
+    <section id="cta" class="cta container">
+      <h2>Ready when you are.</h2>
+      <p class="lead">Join the private beta or just steal this layout. We won’t be mad.</p>
+      <div style="margin-top:16px">
+        <a class="btn primary" href="mailto:hi@unomi.co?subject=Unomi%20Beta%20Request">Request beta access</a>
+        <a class="btn" href="#" onclick="alert('Pretend there is a docs portal here. There will be.'); return false;">Read the docs</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap">
+        <div>© <span id="y"></span> Unomi. All rights allegedly reserved.</div>
+        <div id="contact">
+          <a href="mailto:hi@unomi.co">hi@unomi.co</a> · <a href="#">Privacy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
