@@ -2,7 +2,7 @@ export default function Page() { return <UnomiPro/>; }
 
 function UnomiPro() {
   return (
-    <div className="min-h-screen bg-white text-neutral-900">
+    <div style={{padding:32}}><className="min-h-screen bg-white text-neutral-900">
       {/* Top Bar */}
       <header className="sticky top-0 z-40 bg-white/85 backdrop-blur border-b border-neutral-200">
         <div className="mx-auto max-w-7xl h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
